@@ -7,6 +7,7 @@ create table users(
 create table images(
 	id int primary key auto_increment,
 	image blob,
+	thumbnails blob,
 	user_id int,
 	foreign key(user_id) references users(id)
 );

@@ -8,12 +8,14 @@ public class User {
 	private int id;
 	private String name;
 	private String pwd;
-
+	// Full size images of 800x600
 	private ArrayList<Image> images;
+	// Thumb-nail size images of 32x32
+	private ArrayList<Image> thumbs;
 
 	public User() {
 		this.images = new ArrayList<>();
-
+		this.thumbs = new ArrayList<>();
 	}
 
 	public void setId(int id) {
@@ -22,6 +24,14 @@ public class User {
 
 	public int getId() {
 		return this.id;
+	}
+
+	public void setThumbs(ArrayList<Image> thumbs) {
+		this.thumbs = thumbs;
+	}
+
+	public ArrayList<Image> getThumbs() {
+		return this.thumbs;
 	}
 
 	public void setImages(ArrayList<Image> imgs) {
