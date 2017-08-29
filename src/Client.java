@@ -1,6 +1,6 @@
 import javax.swing.SwingUtilities;
 
-import ui.MainDashboard;
+import ui.LoginFrame;
 
 public class Client {
 	public static void main(String[] args) {
@@ -8,8 +8,7 @@ public class Client {
 
 			@Override
 			public void run() {
-				// new LoginFrame();
-				new MainDashboard(1);
+				new LoginFrame();
 			}
 		});
 	}

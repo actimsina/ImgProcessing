@@ -90,7 +90,9 @@ public class LoginFrame {
 			int userId = us.loginUser(name, pwd);
 
 			if (userId > 0) {
-				JOptionPane.showMessageDialog(null, "Login Success " + userId);
+				frame.dispose();
+				new MainDashboard(userId);
+
 			} else
 				JOptionPane.showMessageDialog(null, "Login failed");
 
