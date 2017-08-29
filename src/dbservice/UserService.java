@@ -1,9 +1,13 @@
 package dbservice;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
 
 import com.mysql.jdbc.Statement;
 
@@ -40,7 +44,7 @@ public class UserService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectionFactory.closeConnection();
+			// ConnectionFactory.closeConnection();
 		}
 
 		return -1;
@@ -67,14 +71,14 @@ public class UserService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			ConnectionFactory.closeConnection();
+			// ConnectionFactory.closeConnection();
 		}
 
 		return -1;
 	}
 
 	public User getUserDetailsById(int id) {
-		User user;
+		User user = null;
 		String sql = "select * from users where id=?";
 
 		try {
@@ -82,16 +86,53 @@ public class UserService {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				// user = new User(rs.getString("name"), rs.getString("pwd"));
-				// user.setId(id);
+				user = new User();
+				user.setName(rs.getString("name"));
+				user.setId(id);
+				return user;
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			// ConnectionFactory.closeConnection();
 		}
 
 		return null;
+	}
+
+	public int saveImage(int userId, String imageName, BufferedImage originalImage) {
+
+		BufferedImage thumbImage = ImageService.resizeToThumbnail(originalImage);
+
+		String sql = "insert into images(image_name, thumbnails, user_id ) values (?, ?, ?)";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			stmt.setString(1, imageName);
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+			ImageIO.write(thumbImage, "jpg", baos);
+			stmt.setBytes(2, baos.toByteArray());
+
+			stmt.setInt(3, userId);
+
+			if (stmt.executeUpdate() > 0) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next())
+					rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// ConnectionFactory.closeConnection();
+		}
+
+		return -1;
+
 	}
 
 }
