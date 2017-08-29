@@ -39,11 +39,9 @@ public class UserService {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			ConnectionFactory.closeConnection();
 		}
 
-		return -1;
+		return 0;
 	}
 
 	/**
@@ -66,11 +64,9 @@ public class UserService {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			ConnectionFactory.closeConnection();
 		}
 
-		return -1;
+		return 0;
 	}
 
 	public User getUserDetailsById(int id) {
@@ -82,12 +78,13 @@ public class UserService {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
-				// user = new User(rs.getString("name"), rs.getString("pwd"));
-				// user.setId(id);
+				user = new User();
+				user.setName(rs.getString("name"));
+				user.setId(id);
+				return user;
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

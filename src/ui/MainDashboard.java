@@ -12,8 +12,9 @@ public class MainDashboard {
 	UserService uservice;
 
 	public MainDashboard(int id) {
+		uservice = new UserService();
 		user = uservice.getUserDetailsById(id);
-		frame.setTitle("Welcome " + user.getName());
+		frame = new JFrame("Welcome " + user.getName());
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
