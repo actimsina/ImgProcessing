@@ -13,11 +13,6 @@ public class ImageService {
 		BufferedImage thumbnailImage = new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = thumbnailImage.createGraphics();
 
-		// g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-		// RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		// g2d.setRenderingHint(RenderingHints.KEY_DITHERING,
-		// RenderingHints.VALUE_DITHER_ENABLE);
-
 		g2d.drawImage(img, 0, 0, 32, 32, null);
 		g2d.dispose();
 		return thumbnailImage;
@@ -26,11 +21,6 @@ public class ImageService {
 	public static BufferedImage resizeToFull(BufferedImage img) {
 		BufferedImage fullImage = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = fullImage.createGraphics();
-
-		// g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
-		// RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		// g2d.setRenderingHint(RenderingHints.KEY_DITHERING,
-		// RenderingHints.VALUE_DITHER_ENABLE);
 
 		g2d.drawImage(img, 0, 0, 800, 600, null);
 		g2d.dispose();
@@ -55,12 +45,6 @@ public class ImageService {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-	}
-
-	public static void drawImage(BufferedImage img, Graphics2D g2d) {
-
-		g2d.drawImage(img, 0, 0, null);
-
 	}
 
 }

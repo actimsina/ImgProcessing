@@ -15,16 +15,16 @@ public class MainDashboard {
 
 	DrawingPanel myDrawing;
 
-	public MainDashboard(int id) {
+	public MainDashboard(int userId) {
 		uservice = new UserService();
 		user = new User();
-		user = uservice.getUserDetailsById(id);
+		user = uservice.getUserDetailsById(userId);
 		frame = new JFrame("Welcome " + user.getName());
 
 		myDrawing = new DrawingPanel();
 		frame.add(myDrawing, BorderLayout.CENTER);
 
-		LibraryPanel myLibrary = new LibraryPanel(id, myDrawing);
+		LibraryPanel myLibrary = new LibraryPanel(userId, myDrawing);
 		frame.add(myLibrary, BorderLayout.EAST);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
