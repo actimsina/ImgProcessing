@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
@@ -70,7 +71,7 @@ public class UserService {
 	}
 
 	public User getUserDetailsById(int id) {
-		User user;
+		User user = null;
 		String sql = "select * from users where id=?";
 
 		try {
@@ -87,8 +88,57 @@ public class UserService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return null;
+	}
+
+	/*
+	 * create table images( id int primary key auto_increment, file_name
+	 * varchar(50), user_id int, foreign key(user_id) references users(id) );
+	 */
+
+	public int addImage(String fileName, int userId) {
+
+		String sql = "insert into images(file_name, user_id ) values (?, ?)";
+
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			stmt.setString(1, fileName);
+			stmt.setInt(2, userId);
+
+			if (stmt.executeUpdate() > 0) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next())
+					return rs.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+
+	}
+
+	public ArrayList<String> getFileNames(int userId) {
+		ArrayList<String> fileNames = new ArrayList<>();
+		String sql = "select file_name from images where user_id=?";
+
+		PreparedStatement stmt;
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, userId);
+
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				fileNames.add(rs.getString(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return fileNames;
 	}
 
 }

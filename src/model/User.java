@@ -14,8 +14,8 @@ public class User {
 	private ArrayList<Image> thumbs;
 
 	public User() {
-		this.images = new ArrayList<>();
-		this.thumbs = new ArrayList<>();
+		images = new ArrayList<>();
+		thumbs = new ArrayList<>();
 	}
 
 	public void setId(int id) {
