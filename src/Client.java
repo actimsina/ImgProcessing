@@ -2,7 +2,7 @@ import java.io.File;
 
 import javax.swing.SwingUtilities;
 
-import ui.MainDashboard;
+import ui.LoginFrame;
 
 public class Client {
 	public static void main(String[] args) {
@@ -12,7 +12,8 @@ public class Client {
 			@Override
 			public void run() {
 				createImageFolders();
-				new MainDashboard(1);
+				// new MainDashboard(1);
+				new LoginFrame();
 			}
 		});
 	}
