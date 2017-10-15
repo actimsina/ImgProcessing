@@ -3,6 +3,7 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -66,16 +67,44 @@ public class DrawingPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
 
 		if (currentImage != null)
-			g.drawImage(currentImage, 0, 0, null);
+			g2d.drawImage(currentImage, 0, 0, null);
 
 		ArrayList<MyShape> shapeArray = myShapes.getArray();
 		for (int counter = shapeArray.size() - 1; counter >= 0; counter--)
-			shapeArray.get(counter).draw(g);
+			shapeArray.get(counter).draw(g2d);
 
 		if (currentShapeObject != null)
-			currentShapeObject.draw(g);
+			currentShapeObject.draw(g2d);
+
+	}
+
+	public boolean saveImage(File file) {
+
+		BufferedImage bi = new BufferedImage(800, 600, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = bi.createGraphics();
+
+		if (currentImage != null)
+			g2d.drawImage(currentImage, 0, 0, null);
+
+		ArrayList<MyShape> shapeArray = myShapes.getArray();
+		for (int counter = shapeArray.size() - 1; counter >= 0; counter--)
+			shapeArray.get(counter).draw(g2d);
+
+		if (currentShapeObject != null)
+			currentShapeObject.draw(g2d);
+
+		try {
+			ImageIO.write(bi, "jpg", file);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+
 	}
 
 	public void setCurrentShapeType(int type) {

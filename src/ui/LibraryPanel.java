@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -25,6 +26,7 @@ class LibraryPanel extends JPanel {
 
 	JFileChooser fileChooser;
 	JButton openFileBtn;
+	JButton saveFileBtn;
 
 	FileNameExtensionFilter filter;
 	BufferedImage originalImg;
@@ -39,6 +41,7 @@ class LibraryPanel extends JPanel {
 		filter = new FileNameExtensionFilter("JPG only", "jpg");
 		fileChooser.setFileFilter(filter);
 		openFileBtn = new JButton("Add image");
+		saveFileBtn = new JButton("Save image");
 
 		ArrayList<String> fileNames = new UserService().getFileNames(userId);
 
@@ -83,8 +86,29 @@ class LibraryPanel extends JPanel {
 			}
 
 		});
-		add(openFileBtn);
 
+		saveFileBtn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int returnVal = fileChooser.showSaveDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+
+					if (!file.exists()) {
+						if (myDrawing.saveImage(file))
+							JOptionPane.showMessageDialog(null, "Image saved successfully");
+
+					} else {
+						JOptionPane.showMessageDialog(null, "File already exists");
+					}
+				}
+			}
+
+		});
+
+		add(openFileBtn);
+		add(saveFileBtn);
 		add(imgLbl);
 		add(listOfImages);
 
